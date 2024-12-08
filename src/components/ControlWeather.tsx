@@ -31,14 +31,14 @@ export default function ControlWeather() {
     let options = items.map((item, key) => <MenuItem key={key} value={key}>{item["name"]}</MenuItem>)
 
 
-    {/* Manejador de eventos */ }
-    const handleChange = (event: SelectChangeEvent) => {
+     {/* Manejador de eventos */}
+     const handleChange = (event: SelectChangeEvent) => {
 
         let idx = parseInt(event.target.value)
         // alert( idx );
-        setSelected(idx);
+        setSelected( idx );
 
-        {/* Modificación de la referencia descriptionRef */ }
+        {/* Modificación de la referencia descriptionRef */}
         if (descriptionRef.current !== null) {
             descriptionRef.current.innerHTML = (idx >= 0) ? items[idx]["description"] : ""
         }
@@ -80,14 +80,13 @@ export default function ControlWeather() {
 
             </Box>
 
-            {/* Use la variable de estado para renderizar del item seleccionado */}
-            {/*<Typography mt={2} component="p" color="text.secondary">
-             {
-                 (selected >= 0)?items[selected]["description"]:""
-             }
-             </Typography>*/}
+             {/* Mostrar la variable seleccionada */}
+             <Typography mt={2} component="p" color="text.secondary">
+                {selected >= 0 ? `Seleccionaste: ${items[selected]["name"]}` : "No has seleccionado ninguna variable"}
+            </Typography>
 
-            <Typography ref={descriptionRef} mt={2} component="p" color="text.secondary" />
+
+             <Typography ref={descriptionRef} mt={2} component="p" color="text.secondary" />
 
 
         </Paper>
