@@ -60,9 +60,9 @@ export default function BasicTable(props: MyProp) {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {formatTime(row.dateStart)}  {/* Mostrar la hora en formato HH:mm:ss */}
+                {formatTime(row.dateStart.toString())}  {/* Mostrar la hora en formato HH:mm:ss */}
               </TableCell>
-              <TableCell align="right">{formatTime(row.dateEnd)}</TableCell> {/* Mostrar la hora en formato HH:mm:ss */}
+              <TableCell align="right">{formatTime(row.dateEnd.toString())}</TableCell> {/* Mostrar la hora en formato HH:mm:ss */}
               <TableCell align="right">{row.precipitation}</TableCell>
               <TableCell align="right">{row.humidity}</TableCell>
               <TableCell align="right">{row.clouds}</TableCell>

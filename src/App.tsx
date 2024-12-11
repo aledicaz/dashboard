@@ -93,40 +93,86 @@ function App() {
 
     request();
 
-  }, [owm]);  {/* Dependencia: owm */ }
+  }, [owm]); {/* Dependencia: owm */ }
 
   let renderIndicators = () => {
     return indicators.map((indicator, idx) => (
-      <Grid key={idx} size={{ xs: 12, xl: 3 }}>
+      
+      <Grid
+        key={idx}
+        xs={12}
+        sm={6}
+        md={3}
+        lg={3}
+        sx={{ flexGrow: 1 }}
+      >
         <IndicatorWeather
-          title={indicator["title"]}
-          subtitle={indicator["subtitle"]}
-          value={indicator["value"]} />
+          title={indicator.title}
+          subtitle={indicator.subtitle}
+          value={indicator.value}
+        />
       </Grid>
+      
     ));
   };
 
   return (
-    <Grid container spacing={5}>
+    <Grid container sx={{ width: '100%' }} spacing={5}>
+
+      <Grid sm={8} md={9} lg={9} xl={9} sx={{ textAlign: 'left', marginY: 3, padding: 3, color: 'white' }}>
+        <h3 id='inicio-title'>Ecuador</h3>
+        <p id='inicio-text'>
+          Aquí encontrarás la información más actualizada sobre el clima de nuestra ciudad, incluyendo temperaturas, condiciones meteorológicas y pronósticos. ¡Mantente informado y planifica tu día con confianza!
+        </p>
+      </Grid>
 
       {/* Indicadores */}
       {renderIndicators()}
 
       {/* Tabla - PASANDO 'items' COMO PROPS AL COMPONENTE TableWeather */}
-      <Grid size={{ xs: 12, xl: 8 }}>
+      {/*</Grid><Grid container size={{ xs: 12, md: 12, lg: 12 }} id="table" > */}
+      <Grid container xs={12} md={12} lg={12} id="table">
+
+        {/*<Grid size={{ xs: 12, md: 12, lg: 12 }} id="title">*/}
+        <Grid xs={12} md={12} lg={12} id="title">
+          <h2 className='section-title'>Historial Climático</h2>
+          <p className='section-text'>
+            Estos indicadores climáticos te ofrecen una visión clara y detallada de las condiciones meteorológicas en Guayaquil, permitiéndote estar siempre preparado y bien informado. Ya sea que necesites saber si llevar un paraguas, qué ropa vestir o simplemente tengas curiosidad por el clima, estos datos te serán de gran ayuda.
+          </p>
+        </Grid>
+
         <Grid container spacing={2}>
-          <Grid size={{ xs: 12, xl: 3 }}>
-            <ControlWeather />
-          </Grid>
-          <Grid size={{ xs: 12, xl: 9 }}>
+          {/*<Grid size={{ xs: 12, md: 12, lg: 12 }} sx={{ marginY: 2 }}>*/}
+          <Grid xs={12} md={12} lg={12} sx={{ marginY: 2 }}>
             <TableWeather itemsIn={items} /> {/* PASA items COMO PROPS */}
           </Grid>
         </Grid>
+
       </Grid>
 
+
       {/* Gráfico */}
-      <Grid size={{ xs: 12, xl: 4 }}>
-        <LineChartWeather />
+      {/* <Grid size={{ xs: 12, md: 12, lg: 12 }} id="graphic">*/}
+      <Grid container xs={12} md={12} lg={12} id="graphic">
+
+         {/*<Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }} id="title">*/}
+        <Grid xs={12} sm={12} md={12} lg={12} id="title">
+          <h2 className='section-title'>Gráfico Climático</h2>
+          <p className='section-text'>
+            Esta gráfica proporciona una visión integral de las principales variables climáticas que afectan el tiempo en Guayaquil. A través de esta visualización, podrás observar cómo varían la humedad, la precipitación y la nubosidad a lo largo del tiempo, lo que te ayudará a entender mejor las condiciones meteorológicas actuales y planificar tus actividades de manera más efectiva.
+          </p>
+        </Grid>
+        
+        {/* <Grid size={{ xs: 12, sm: 12, md: 3, lg: 3 }} id="control-panel" sx={{ marginY: 2 }}>*/}
+        <Grid xs={12} sm={12} md={3} lg={3} id="control-panel" sx={{ marginY: 2 }}>
+          <ControlWeather />
+        </Grid>
+
+        {/* <Grid size={{ xs: 12, sm: 12, md: 9, lg: 9 }} sx={{ zIndex: 1, marginY: 2 }}>*/}
+        <Grid xs={12} sm={12} md={9} lg={9} sx={{ zIndex: 1, marginY: 2 }}>
+          <LineChartWeather />
+        </Grid>
+
       </Grid>
 
     </Grid>

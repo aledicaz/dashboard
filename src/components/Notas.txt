@@ -1,0 +1,162 @@
+import './App.css';
+import Grid from '@mui/material/Grid2';
+import IndicatorWeather from './components/IndicatorWeather';
+import TableWeather from './components/TableWeather';
+import ControlWeather from './components/ControlWeather';
+import LineChartWeather from './components/LineChartWeather';
+import Item from './interface/Item';
+import { useEffect, useState } from 'react';
+
+interface Indicator {
+  title?: String;
+  subtitle?: String;
+  value?: String;
+}
+
+function App() {
+  let [indicators, setIndicators] = useState<Indicator[]>([]);
+  let [owm, setOWM] = useState(localStorage.getItem("openWeatherMap"));
+  let [items, setItems] = useState<Item[]>([]);
+
+  useEffect(() => {
+    const request = async () => {
+      let savedTextXML = localStorage.getItem("openWeatherMap") || "";
+      let expiringTime = localStorage.getItem("expiringTime");
+      let nowTime = new Date().getTime();
+
+      if (!expiringTime || nowTime > parseInt(expiringTime)) {
+        let API_KEY = "b8d5f84990c4d0bb46a735a3c7f5038b";
+        let response = await fetch(
+          `https://api.openweathermap.org/data/2.5/forecast?q=Guayaquil&mode=xml&appid=${API_KEY}`
+        );
+        savedTextXML = await response.text();
+
+        let hours = 0.01;
+        let delay = hours * 3600000;
+        let expiringTime = nowTime + delay;
+
+        localStorage.setItem("openWeatherMap", savedTextXML);
+        localStorage.setItem("expiringTime", expiringTime.toString());
+        localStorage.setItem("nowTime", nowTime.toString());
+        localStorage.setItem(
+          "expiringDateTime",
+          new Date(expiringTime).toString()
+        );
+        localStorage.setItem("nowDateTime", new Date(nowTime).toString());
+
+        setOWM(savedTextXML);
+      }
+
+      if (savedTextXML) {
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(savedTextXML, "application/xml");
+
+        let dataToIndicators: Indicator[] = [];
+
+        let name = xml.getElementsByTagName("name")[0].innerHTML || "";
+        dataToIndicators.push({
+          title: "Location",
+          subtitle: "City",
+          value: name,
+        });
+
+        let location = xml.getElementsByTagName("location")[1];
+        let latitude = location.getAttribute("latitude") || "";
+        dataToIndicators.push({
+          title: "Location",
+          subtitle: "Latitude",
+          value: latitude,
+        });
+
+        let longitude = location.getAttribute("longitude") || "";
+        dataToIndicators.push({
+          title: "Location",
+          subtitle: "Longitude",
+          value: longitude,
+        });
+
+        let altitude = location.getAttribute("altitude") || "";
+        dataToIndicators.push({
+          title: "Location",
+          subtitle: "Altitude",
+          value: altitude,
+        });
+
+        setIndicators(dataToIndicators);
+
+        let dataToItems: Item[] = [];
+        const times = xml.getElementsByTagName("time");
+
+        for (let i = 0; i < Math.min(times.length, 6); i++) {
+          let time = times[i];
+
+          let dateStart = time.getAttribute("from") || "";
+          let dateEnd = time.getAttribute("to") || "";
+          let precipitation =
+            time.getElementsByTagName("precipitation")[0]?.getAttribute(
+              "probability"
+            ) || "";
+          let humidity =
+            time.getElementsByTagName("humidity")[0]?.getAttribute("value") ||
+            "";
+          let clouds =
+            time.getElementsByTagName("clouds")[0]?.getAttribute("all") || "";
+
+          dataToItems.push({
+            dateStart,
+            dateEnd,
+            precipitation,
+            humidity,
+            clouds,
+          });
+        }
+
+        setItems(dataToItems);
+      }
+    };
+
+    request();
+  }, [owm]);
+
+  const renderIndicators = () => {
+    return indicators.map((indicator, idx) => (
+      <Grid key={idx} xs={12} md={3}>
+        <IndicatorWeather
+          title={indicator.title}
+          subtitle={indicator.subtitle}
+          value={indicator.value}
+        />
+      </Grid>
+    ));
+  };
+
+  return (
+    <Grid container spacing={5}>
+
+      {/* Primera fila: Indicadores */}
+      <Grid container item spacing={2} xs={12}>
+        {renderIndicators()}
+      </Grid>
+
+      {/* Segunda fila: Selector y Gráfico */}
+      <Grid container item spacing={2} xs={12} justifyContent="center">
+        <Grid item xs={12} md={4}>
+          <ControlWeather />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <LineChartWeather />
+        </Grid>
+      </Grid>
+
+      {/* Tercera fila: Tabla */}
+      <Grid container item spacing={2} xs={12}>
+        <Grid item xs={12}>
+          <TableWeather itemsIn={items} />
+        </Grid>
+      </Grid>
+      
+    </Grid>
+  );
+}
+
+export default App;
