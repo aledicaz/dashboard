@@ -12,13 +12,10 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 
-export default function ControlWeather(){
+export default function ControlWeather({ setSelected }: { setSelected: Function }) {
 
     {/* Constante de referencia a un elemento HTML */ }
     const descriptionRef = useRef<HTMLDivElement>(null);
-
-    {/* Variable de estado y función de actualización */ }
-    let [selected, setSelected] = useState(-1)
 
     {/* Arreglo de objetos */ }
     let items = [
@@ -52,19 +49,13 @@ export default function ControlWeather(){
             sx={{
                 p: 2,
                 display: 'flex',
-                flexDirection: 'column',
-                backgroundColor: 'white',
-                borderRadius: '5px'
+                flexDirection: 'column'
             }}
-            elevation={5}
         >
-
-            <Typography mb={2} component="h3" variant="h6" sx={{ color: '#123f77' }}>
+            <Typography mb={2} component="h3" variant="h6" color="primary">
                 Variables Meteorológicas
             </Typography>
-
             <Box sx={{ minWidth: 120 }}>
-
                 <FormControl fullWidth>
                     <InputLabel id="simple-select-label">Variables</InputLabel>
                     <Select
@@ -74,26 +65,14 @@ export default function ControlWeather(){
                         defaultValue='-1'
                         onChange={handleChange}
                     >
-                        <MenuItem key="-1" value="-1" disabled>Seleccione una variable</MenuItem>
-
+                        <MenuItem key="-1" value="-1" disabled>
+                            Seleccione una variable
+                        </MenuItem>
                         {options}
-
                     </Select>
                 </FormControl>
-
             </Box>
-
-            {/* Mostrar la variable seleccionada 
-            <Typography mt={2} component="p" color="text.secondary">
-                {selected >= 0 ? `Seleccionaste: ${items[selected]["name"]}` : "No has seleccionado ninguna variable"}
-            </Typography>
-        */}
-
             <Typography ref={descriptionRef} mt={2} component="p" color="text.secondary" />
-
-
         </Paper>
-
-
     )
 }
