@@ -23,7 +23,7 @@ export default function LineChartWeather({ itemsIn, selected }: { itemsIn: Item[
     }, [selected]);
 
     return (
-        <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
+        <Paper sx={{p: 2, display: 'flex',flexDirection: 'column'}}>
             {selected !== -1 && (
                 <LineChart
                     height={200}

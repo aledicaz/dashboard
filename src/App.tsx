@@ -93,19 +93,19 @@ function App() {
         }}
       >
         <List>
-          <ListItem>
-            <Typography variant="h6">Dashboard Clima</Typography>
-          </ListItem>
-          <ListItemButton onClick={() => navigateTo('inicio-title')}>
-            <ListItemText primary="Indicadores" />
-          </ListItemButton>
-          <ListItemButton onClick={() => navigateTo('table')}>
-            <ListItemText primary="Historial" />
-          </ListItemButton>
-          <ListItemButton onClick={() => navigateTo('graphic')}>
-            <ListItemText primary="Gráfica" />
-          </ListItemButton>
-        </List>
+  <ListItem>
+    <Typography variant="h6">Dashboard Clima</Typography>
+  </ListItem>
+  <ListItemButton onClick={() => navigateTo('inicio-title')} sx={{ marginY: 1 , marginTop: 2}}>
+    <ListItemText primary="Indicadores" />
+  </ListItemButton>
+  <ListItemButton onClick={() => navigateTo('table')} sx={{ marginY: 1 }}>
+    <ListItemText primary="Historial" />
+  </ListItemButton>
+  <ListItemButton onClick={() => navigateTo('graphic')} sx={{ marginY: 1 }}>
+    <ListItemText primary="Gráfica" />
+  </ListItemButton>
+</List>
       </Drawer>
 
       {/* AppBar */}
@@ -164,11 +164,9 @@ function App() {
               Esta gráfica ofrece una perspectiva completa de las principales variables que influyen en el clima de Guayaquil.
             </p>
           </Grid>
-          <Grid size={{ xs: 12, xl: 6 }}>
-            <ControlWeather setSelected={setSelected} />
-          </Grid>
-          <Grid size={{ xs: 12, xl: 6 }}>
+          <Grid size={{ xs: 12, xl: 6 }}>   
             <LineChartWeather itemsIn={items} selected={selected} />
+            <ControlWeather setSelected={setSelected} />
           </Grid>
         </Grid>
       </Box>
