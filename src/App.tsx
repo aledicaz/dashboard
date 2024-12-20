@@ -96,14 +96,14 @@ function App() {
   <ListItem>
     <Typography variant="h6">Dashboard Clima</Typography>
   </ListItem>
-  <ListItemButton onClick={() => navigateTo('inicio-title')} sx={{ marginY: 1 , marginTop: 2}}>
-    <ListItemText primary="Indicadores" />
+  <ListItemButton onClick={() => navigateTo('inicio-title')} sx={{ marginY: 1 , marginTop: 3}}>
+    <ListItemText sx={{ marginLeft: 1}} primary="Indicadores" />
   </ListItemButton>
   <ListItemButton onClick={() => navigateTo('table')} sx={{ marginY: 1 }}>
-    <ListItemText primary="Historial" />
+    <ListItemText sx={{ marginLeft: 1}} primary="Historial" />
   </ListItemButton>
   <ListItemButton onClick={() => navigateTo('graphic')} sx={{ marginY: 1 }}>
-    <ListItemText primary="Gráfica" />
+    <ListItemText sx={{ marginLeft: 1}} primary="Gráfica" />
   </ListItemButton>
 </List>
       </Drawer>
@@ -122,7 +122,7 @@ function App() {
         <Grid container spacing={5}>
           
           <Grid size={{ xs: 12 }} id="inicio-title">
-            <h3>Guayaquil, Ecuador</h3>
+            <h3 id = "tituloGye">Guayaquil, Ecuador</h3>
             <h2 className="section-title">Indicadores</h2>
             <p id="inicio-text">
               Aquí podrás acceder a la información más reciente sobre el clima de nuestra ciudad, incluyendo detalles sobre temperaturas,
